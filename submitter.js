@@ -1,20 +1,12 @@
-$('form').submit(function(){
-    var data = $('form').serializeArray();
-    data = parseJson(data);
+function submitForm() {
+    var data = {};
+    data["amount"] = document.myForm.amount.value;
+    data["price"] = document.myForm.price.value;
+    data["event_name"] = document.myForm.event_name.value;
+    data["image"] = document.myForm.image.value;
+    data["explanation"] = document.myForm.description.value;
+    data["date"] = document.myForm.date.value;
 
-    $.ajax({
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
-        scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
-    })
-})
-
-var parseJson = function(data) {
-    var returnJson = {};
-    for (idx = 0; idx < data.length; idx++) {
-        returnJson[data[idx].name] = data[idx].value
-    }
-    return returnJson;
+    json_data = JSON.stringify(data);
+    return json_data;
 }
