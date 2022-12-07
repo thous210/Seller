@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <title>販売者用サイト</title>
-        <script src="./submitter.js"></script>
-    </head>
-    <body>
-        <form name="myForm" id="myForm" action="http://localhost:8080/new" method="post">
-            <h1>販売者用サイト</h1>
-            <p>イベント名 : <br>
-                <input type="text" name="event_name"></p>
-            <p>日時 : <br>
-                <input type="text" name="date"></p>
-            <p>画像 : <br>
-                <input type="file" name="image"></p>
-            <p>説明 : <br>
-                <textarea name="description" cols="50" rows="5"></textarea></p>
-            <p>チケット枚数 : （単位 枚）<br>
-                <input type="text" name="amount"></p>
-            <p>価格 : <br>
-                <input type="text" name="price"></p>
-            <p><input type="button" value="販売リクエストを送る" onclick="submitForm();"></p>
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>販売者用サイト</title>
+    <script src="./submitter.js"></script>
+</head>
+<body>
+<form name="myForm" id="myForm">
+    <h1>販売者用サイト</h1>
+    <p>イベント名 : <br>
+        <input type="text" name="event_name"></p>
+    <p>画像 : <br>
+        <input type="text" name="image"></p>
+    <p>説明 : <br>
+        <textarea name="description" cols="50" rows="5"></textarea></p>
+    <p>チケット枚数 : （単位 枚）<br>
+        <input type="text" name="amount"></p>
+    <p>価格 : <br>
+        <input type="text" name="price"></p>
+    <p><input type="button" value="販売リクエストを送る" onclick="submitForm()"></p>
+</form>
+</body>
 
 </html>
