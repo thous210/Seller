@@ -8,5 +8,5 @@ function submitForm() {
     data["date"] = document.myForm.date.value;
 
     json_data = JSON.stringify(data);
-    return json_data;
+    document.myForm.submit();
 }
