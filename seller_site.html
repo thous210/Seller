@@ -4,82 +4,87 @@
     <meta charset="UTF-8">
     <title>販売者用サイト</title>
     <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="./crypto_stock.js"></script>
     <script type="text/javascript">
-    const provider = async () => {
-        await detectEthereumProvider();
-    }
+        var contract = null
 
-    if (provider) {
-        startApp(provider);
-    } else {
-        console.log('Please install MetaMask!');
-    }
+        detectEthereumProvider().then(provider => {
+            if (provider) {
+                let web3js = new Web3(provider)
+                contract = new web3js.eth.Contract(Crypto_stock, ADDRESS)
+            } else {
+                console.log("please install MetaMask!")
+            }
+        })
 
-    function startApp(provider) {
-        /*if (provider !== window.ethereum) {
-            console.error('Do you have multiple wallets installed?');
-        }*/
-    }
-
-    const chainId = async () => {
-        await ethereum.request({ method: 'eth_chainId' });
-    }
-    ethereum.on('chainChanged', handleChainChanged);
-
-    function handleChainChanged(_chainId) {
-        //window.location.reload();
-        console.log('chainId :')
-        console.log(_chainId);
-        document.body.innerHTML += `<p>${'ChainID :'}</p>`;
-        document.body.innerHTML += `<p>${_chainId}</p>`;
-    }
-
-    let currentAccount = null;
-    /*ethereum
-        .request({ method: 'eth_accounts' })
-        .then(handleAccountsChanged)
-        .catch((err) => {
-            console.error(err);
-        });*/
-
-    //ethereum.on('accountsChanged', handleAccountsChanged);
-
-    function handleAccountsChanged(accounts) {
-        console.log('address :')
-        console.log(accounts[0]);
-        document.body.innerHTML += `<p>${'Your Wallet Address :'}</p>`;
-        document.body.innerHTML += `<p>${accounts[0]}</p>`;
-        if (accounts.length === 0) {
-            console.log('Please connect to MetaMask.');
-        } else if (accounts[0] !== currentAccount) {
-            currentAccount = accounts[0];
+        const chainId = async () => {
+            await ethereum.request({method: 'eth_chainId'});
         }
-    }
+        ethereum.on('chainChanged', handleChainChanged);
 
-    document.getElementById("connectButton", connect);
+        function handleChainChanged(_chainId) {
+            //window.location.reload();
+            console.log('chainId :')
+            console.log(_chainId);
+            document.body.innerHTML += `<p>${'ChainID :'}</p>`;
+            document.body.innerHTML += `<p>${_chainId}</p>`;
+        }
 
-    function connect() {
-        //console.log('connected!');
-        ethereum
-            .request({ method: 'eth_requestAccounts' })
-            .then(handleAccountsChanged)
-            .catch((err) => {
-                if (err.code === 4001) {
-                    console.log('Please connect to MetaMask.');
-                } else {
+        let currentAccount = null;
+
+        function handleAccountsChanged(accounts) {
+            console.log('address :')
+            console.log(accounts[0]);
+            document.body.innerHTML += `<p>${'Your Wallet Address :'}</p>`;
+            document.body.innerHTML += `<p>${accounts[0]}</p>`;
+            if (accounts.length === 0) {
+                console.log('Please connect to MetaMask.');
+            } else if (accounts[0] !== currentAccount) {
+                currentAccount = accounts[0];
+            }
+        }
+
+        document.getElementById("connectButton", connect);
+
+        function connect() {
+            //console.log('connected!');
+            ethereum
+                .request({method: 'eth_requestAccounts'})
+                .then(handleAccountsChanged)
+                .catch((err) => {
+                    if (err.code === 4001) {
+                        console.log('Please connect to MetaMask.');
+                    } else {
+                        console.error(err);
+                    }
+                });
+
+            ethereum
+                .request({method: 'eth_chainId'})
+                .then(handleChainChanged)
+                .catch((err) => {
                     console.error(err);
-                }
-            });
+                });
+        }
 
-        ethereum
-            .request({ method: 'eth_chainId' })
-            .then(handleChainChanged)
-            .catch((err) => {
-                console.error(err);
-            });
-    }
+        function submitForm() {
+            var form = document.getElementById("myForm");
+
+            var data = {};
+            data["event_name"] = form.elements.event_name.value;
+            data["image"] = form.elements.image.value;
+            data["explanation"] = form.elements.description.value;
+            data["address"] = currentAccount;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8080/new', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
+
+            contract.methods.register().send().then(res => console.log(res))
+        }
     </script>
-    <script src="./submitter.js"></script>
 </head>
 <body>
 <form name="myForm" id="myForm">
@@ -91,10 +96,6 @@
         <input type="text" name="image"></p>
     <p>説明 : <br>
         <textarea name="description" cols="50" rows="5"></textarea></p>
-    <p>販売数 : <br>
-        <input type="text" name="amount"></p>
-    <p>価格 : <br>
-        <input type="text" name="price"></p>
     <p><input type="button" value="販売リクエストを送る" onclick="submitForm()"></p>
 </form>
 </body>
