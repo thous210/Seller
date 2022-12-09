@@ -75,6 +75,7 @@
             data["event_name"] = form.elements.event_name.value;
             data["image"] = form.elements.image.value;
             data["explanation"] = form.elements.description.value;
+            data["address"] = currentAccount;
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'http://localhost:8080/new', true);
