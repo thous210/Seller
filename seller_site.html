@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>販売者用サイト</title>
+    <title>事業者用サイト</title>
     <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
     <script src="./crypto_stock.js"></script>
@@ -27,8 +27,8 @@
             //window.location.reload();
             console.log('chainId :')
             console.log(_chainId);
-            document.body.innerHTML += `<p>${'ChainID :'}</p>`;
-            document.body.innerHTML += `<p>${_chainId}</p>`;
+            document.body.innerHTML += `<p style="margin-left: 100px;">${'ChainID :'}</p>`;
+            document.body.innerHTML += `<p style="margin-left: 100px;">${_chainId}</p>`;
         }
 
         let currentAccount = null;
@@ -36,8 +36,8 @@
         function handleAccountsChanged(accounts) {
             console.log('address :')
             console.log(accounts[0]);
-            document.body.innerHTML += `<p>${'Your Wallet Address :'}</p>`;
-            document.body.innerHTML += `<p>${accounts[0]}</p>`;
+            document.body.innerHTML += `<p style="margin-left: 100px;">${'Your Wallet Address :'}</p>`;
+            document.body.innerHTML += `<p style="margin-left: 100px;">${accounts[0]}</p>`;
             if (accounts.length === 0) {
                 console.log('Please connect to MetaMask.');
             } else if (accounts[0] !== currentAccount) {
@@ -88,15 +88,20 @@
 </head>
 <body>
 <form name="myForm" id="myForm">
-    <p><input type="button" id="connectButton" value="ウォレットを接続" onclick="connect()"></p>
-    <h1>販売者用サイト</h1>
-    <p>企業名 : <br>
-        <input type="text" name="event_name"></p>
-    <p>画像 : <br>
-        <input type="text" name="image"></p>
-    <p>説明 : <br>
-        <textarea name="description" cols="50" rows="5"></textarea></p>
-    <p><input type="button" value="販売リクエストを送る" onclick="submitForm()"></p>
+    <header style="background-color: #000; background-repeat: repeat-x; height: 100px;">
+        <img class="logo" style="width: 100px; height:100px; float: left" src="image.png">
+        <h1 class="headline" style="color: #fff; text-align: center; padding-top: 30px;">
+            事業者用サイト
+        </h1>
+    </header>
+    <p><input style="margin-left: 100px; width: 200px; height: 40px;"  type="button" id="connectButton" value="ウォレットを接続" onclick="connect()"></p>
+    <p style="margin-left: 100px;" >企業名 : <br>
+        <input style="width: 400px; margin-left: 100px;"  type="text" name="event_name"></p>
+    <p style="margin-left: 100px;" >画像 : <br>
+        <input style="width: 400px; margin-left: 100px;"  type="text" name="image"></p>
+    <p style="margin-left: 100px;" >説明 : <br>
+        <textarea style="margin-left: 100px;" name="description" cols="70" rows="10"></textarea></p>
+    <p><input style="margin-left: 100px; width: 200px; height: 40px;" type="button" value="販売リクエストを送る" onclick="submitForm()"></p>
 </form>
 </body>
 
