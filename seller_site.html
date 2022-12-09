@@ -27,9 +27,10 @@
     ethereum.on('chainChanged', handleChainChanged);
 
     function handleChainChanged(_chainId) {
+        console.log('chainId :')
+        console.log(_chainId);
         window.location.reload();
     }
-
 
     let currentAccount = null;
     ethereum
@@ -42,6 +43,8 @@
     ethereum.on('accountsChanged', handleAccountsChanged);
 
     function handleAccountsChanged(accounts) {
+        console.log('address :')
+        console.log(accounts[0]);
         if (accounts.length === 0) {
             console.log('Please connect to MetaMask.');
         } else if (accounts[0] !== currentAccount) {
@@ -52,7 +55,7 @@
     document.getElementById("connectButton", connect);
 
     function connect() {
-        console.log('connected!');
+        //console.log('connected!');
         ethereum
             .request({ method: 'eth_requestAccounts' })
             .then(handleAccountsChanged)
