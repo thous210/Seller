@@ -72,8 +72,6 @@
             var form = document.getElementById("myForm");
 
             var data = {};
-            data["amount"] = parseInt(form.elements.amount.value);
-            data["price"] = parseFloat(form.elements.price.value);
             data["event_name"] = form.elements.event_name.value;
             data["image"] = form.elements.image.value;
             data["explanation"] = form.elements.description.value;
@@ -97,10 +95,6 @@
         <input type="text" name="image"></p>
     <p>説明 : <br>
         <textarea name="description" cols="50" rows="5"></textarea></p>
-    <p>販売数 : <br>
-        <input type="text" name="amount"></p>
-    <p>価格 : <br>
-        <input type="text" name="price"></p>
     <p><input type="button" value="販売リクエストを送る" onclick="submitForm()"></p>
 </form>
 </body>
