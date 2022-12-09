@@ -3,10 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>販売者用サイト</title>
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script type="text/javascript">
+    const provider = async () => {
+        await detectEthereumProvider();
+    }
+
+    if (provider) {
+        startApp(provider);
+    } else {
+        console.log('Please install MetaMask!');
+    }
+
+    function startApp(provider) {
+        /*if (provider !== window.ethereum) {
+            console.error('Do you have multiple wallets installed?');
+        }*/
+    }
+
+    const chainId = async () => {
+        await ethereum.request({ method: 'eth_chainId' });
+    }
+    ethereum.on('chainChanged', handleChainChanged);
+
+    function handleChainChanged(_chainId) {
+        window.location.reload();
+    }
+
+
+    let currentAccount = null;
+    ethereum
+        .request({ method: 'eth_accounts' })
+        .then(handleAccountsChanged)
+        .catch((err) => {
+            console.error(err);
+        });
+
+    ethereum.on('accountsChanged', handleAccountsChanged);
+
+    function handleAccountsChanged(accounts) {
+        if (accounts.length === 0) {
+            console.log('Please connect to MetaMask.');
+        } else if (accounts[0] !== currentAccount) {
+            currentAccount = accounts[0];
+        }
+    }
+
+    document.getElementById("connectButton", connect);
+
+    function connect() {
+        console.log('connected!');
+        ethereum
+            .request({ method: 'eth_requestAccounts' })
+            .then(handleAccountsChanged)
+            .catch((err) => {
+                if (err.code === 4001) {
+                    console.log('Please connect to MetaMask.');
+                } else {
+                    console.error(err);
+                }
+            });
+    }
+    </script>
     <script src="./submitter.js"></script>
 </head>
 <body>
 <form name="myForm" id="myForm">
+    <p><input type="button" id="connectButton" value="ウォレットを接続" onclick="connect()"></p>
     <h1>販売者用サイト</h1>
     <p>イベント名 : <br>
         <input type="text" name="event_name"></p>
