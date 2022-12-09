@@ -27,24 +27,28 @@
     ethereum.on('chainChanged', handleChainChanged);
 
     function handleChainChanged(_chainId) {
+        //window.location.reload();
         console.log('chainId :')
         console.log(_chainId);
-        window.location.reload();
+        document.body.innerHTML += `<p>${'ChainID :'}</p>`;
+        document.body.innerHTML += `<p>${_chainId}</p>`;
     }
 
     let currentAccount = null;
-    ethereum
+    /*ethereum
         .request({ method: 'eth_accounts' })
         .then(handleAccountsChanged)
         .catch((err) => {
             console.error(err);
-        });
+        });*/
 
-    ethereum.on('accountsChanged', handleAccountsChanged);
+    //ethereum.on('accountsChanged', handleAccountsChanged);
 
     function handleAccountsChanged(accounts) {
         console.log('address :')
         console.log(accounts[0]);
+        document.body.innerHTML += `<p>${'Your Wallet Address :'}</p>`;
+        document.body.innerHTML += `<p>${accounts[0]}</p>`;
         if (accounts.length === 0) {
             console.log('Please connect to MetaMask.');
         } else if (accounts[0] !== currentAccount) {
@@ -66,6 +70,13 @@
                     console.error(err);
                 }
             });
+
+        ethereum
+            .request({ method: 'eth_chainId' })
+            .then(handleChainChanged)
+            .catch((err) => {
+                console.error(err);
+            });
     }
     </script>
     <script src="./submitter.js"></script>
@@ -80,7 +91,7 @@
         <input type="text" name="image"></p>
     <p>説明 : <br>
         <textarea name="description" cols="50" rows="5"></textarea></p>
-    <p>チケット枚数 : （単位 枚）<br>
+    <p>販売数 : <br>
         <input type="text" name="amount"></p>
     <p>価格 : <br>
         <input type="text" name="price"></p>
